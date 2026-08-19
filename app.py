@@ -64,7 +64,7 @@ def load_model_and_tokenizer():
             weights_exist = True
 
     if weights_exist:
-        # Load dari folder lokal jika ada file weights-nya
+        # Load dari folder lokal jika running secara offline/lokal di laptop
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         model = AutoModelForSequenceClassification.from_pretrained(model_path)
         
@@ -76,10 +76,10 @@ def load_model_and_tokenizer():
         else:
             id2label = {0: "negatif", 1: "netral", 2: "positif"}
     else:
-        # Download otomatis dari Hugging Face Hub (Sangat ringan buat Streamlit Cloud / GitHub)
-        fallback_model = "indobenchmark/indobert-base-p1"
-        tokenizer = AutoTokenizer.from_pretrained(fallback_model)
-        model = AutoModelForSequenceClassification.from_pretrained(fallback_model, num_labels=3)
+        # Download otomatis dari repository Hugging Face milikmu saat deployed di Streamlit Cloud
+        hf_repo = "EkkyDimas1/indobert-access-kai"
+        tokenizer = AutoTokenizer.from_pretrained(hf_repo)
+        model = AutoModelForSequenceClassification.from_pretrained(hf_repo)
         id2label = {0: "negatif", 1: "netral", 2: "positif"}
         
     return tokenizer, model, id2label
